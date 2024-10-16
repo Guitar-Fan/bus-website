@@ -32,3 +32,25 @@
       bottom: 0;
       width: 100%;
     }
+
+/* Center the title section of the introduction section */
+#introduction h2:first-of-type {
+  text-align: center;
+}
+
+/* About Us and What Routes Do We Cover sections side by side */
+#introduction h2:nth-of-type(2),
+#introduction h2:nth-of-type(3) {
+  display: inline-block;
+  width: 45%;
+  vertical-align: top;
+  margin: 2.5%;
+}
+
+#introduction p:nth-of-type(2),
+#introduction p:nth-of-type(3) {
+  display: inline-block;
+  width: 45%;
+  vertical-align: top;
+  margin: 2.5%;
+}
