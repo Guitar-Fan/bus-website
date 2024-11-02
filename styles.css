@@ -18,12 +18,13 @@ body {
 }
 
 header {
-  background-color: var(--secondary-color);
+  background-color: #ff9800; /* More interesting color */
   color: #fff;
-  padding: 4px 0; /* Reduced padding */
+  padding: 20px 0; /* Increased padding */
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  font-size: 1em; /* Reduced font size */
+  font-size: 2em; /* Increased font size */
+  width: 100%; /* Make header full width */
 }
 
 .navbar {
@@ -59,7 +60,6 @@ footer {
   color: #fff;
   text-align: center;
   padding: 8px 0; /* Reduced padding */
-  position: fixed;
   width: 100%;
   bottom: 0;
   box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
