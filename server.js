@@ -1,10 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const sqlite3 = require('sqlite3').verbose();
+const path = require('path');
 const app = express();
 const port = 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 // Use a file-based SQLite database
 const db = new sqlite3.Database('database.db');
@@ -12,6 +14,11 @@ const db = new sqlite3.Database('database.db');
 // Create the users table if it doesn't exist
 db.serialize(() => {
     db.run("CREATE TABLE IF NOT EXISTS users (name TEXT, num_people INTEGER, route_number TEXT, time TEXT)");
+});
+
+// Serve index.html from a specific route
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Handle form submission
@@ -24,7 +31,7 @@ app.post('/submit', (req, res) => {
         if (err) {
             return console.log(err.message);
         }
-        res.send('Form data received and stored in database');
+        res.status(200).send('Form submitted successfully');
     });
 });
 

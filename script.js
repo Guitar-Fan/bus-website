@@ -41,3 +41,36 @@ function resetSlideTimer() {
 document.addEventListener('DOMContentLoaded', (event) => {
   showSlides(slideIndex);
 });
+
+document.getElementById('myForm').addEventListener('submit', handleFormSubmit);
+
+async function handleFormSubmit(event) {
+  event.preventDefault();
+  
+  const formData = new FormData(event.submit);
+  const data = Object.fromEntries(formData.entries());
+
+  try {
+    const response = await fetch('/submit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+
+    if (response.ok) {
+      event.target.style.display = 'none';
+      const message = document.createElement('p');
+      message.textContent = "Thanks for doing business with us! We look forward to seeing you next time.";
+      event.target.parentNode.appendChild(message);
+      setTimeout(() => {
+        location.reload();
+      }, 2000);
+    } else {
+      alert('There was an error submitting the form. Please try again.');
+    }
+  } catch (error) {
+    alert('There was an error submitting the form. Please try again.');
+  }
+}

@@ -60,7 +60,7 @@
 
   <section id="reserve-seats">
     <h2>Reserve Seats</h2>
-    <form>
+    <form action="/submit" method="post" id="myForm">
       <label for="name">Name:</label>
       <input type="text" id="name" name="name"><br><br>
 
@@ -73,7 +73,7 @@
       <label for="time">Time:</label>
       <input type="text" id="time" name="time"><br><br>
       
-      <input type="submit" value="Submit" onclick="submitReservationForm(event)">
+      <input type="submit" value="Submit" />
     </form>
   </section>
 
@@ -81,7 +81,7 @@
     <h2>Contact Us</h2>
     <p>Email: example@example.com</p>
     <p>Phone: 123-456-7890</p>
-    <p>&copy; 2023 Bus Program. All rights reserved.</p>
+    <p>&copy; 2024 Bus Program. All rights reserved.</p>
   </footer>
 
   <script src="script.js"></script>
