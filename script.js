@@ -23,10 +23,10 @@ function showSlides(n) {
   if (n > slides.length) {slideIndex = 1}    
   if (n < 1) {slideIndex = slides.length}
   for (i = 0; i < slides.length; i++) {
-  slides[i].style.display = "none";  
+    slides[i].style.display = "none";  
   }
   for (i = 0; i < dots.length; i++) {
-  dots[i].className = dots[i].className.replace(" active", "");
+    dots[i].className = dots[i].className.replace(" active", "");
   }
   slides[slideIndex-1].style.display = "block";  
   dots[slideIndex-1].className += " active";
@@ -47,17 +47,19 @@ document.getElementById('myForm').addEventListener('submit', handleFormSubmit);
 async function handleFormSubmit(event) {
   event.preventDefault();
   
-  const formData = new FormData(event.submit);
+  const formData = new FormData(event.target); // Corrected from event.submit to event.target
   const data = Object.fromEntries(formData.entries());
 
   try {
-    const response = await fetch('/submit', {
+    const response = await fetch('/reserve', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
     });
+
+    const result = await response.json(); // Added to await the response and parse JSON
 
     if (response.ok) {
       event.target.style.display = 'none';
@@ -68,9 +70,10 @@ async function handleFormSubmit(event) {
         location.reload();
       }, 2000);
     } else {
-      alert('There was an error submitting the form. Please try again.');
+      alert('There was an error submitting the form. Please try again later.');
     }
   } catch (error) {
+    console.error('Error:', error); // Moved error logging here
     alert('There was an error submitting the form. Please try again.');
   }
 }

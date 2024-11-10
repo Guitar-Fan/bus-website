@@ -2,11 +2,17 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
+const cors = require('cors');
 const app = express();
-const port = 5500;
+const port = 5501;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+app.use(cors({
+  origin: 'http://your-frontend-domain.com',
+  methods: ['GET', 'POST']
+}));
 
 // Use a file-based SQLite database
 const db = new sqlite3.Database('database.db', (err) => {
@@ -29,7 +35,7 @@ db.serialize(() => {
 });
 
 // Handle form submission
-app.post('/submit', (req, res) => {
+app.post('/reserve', (req, res) => {
     const name = req.body.name;
     const numPeople = req.body['num-people'];
     const routeNumber = req.body['route-number'];
