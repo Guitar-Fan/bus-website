@@ -14,8 +14,8 @@ app.use(express.static('public'));
 
 // Handle form submission
 app.post('/submit', (req, res) => {
-    const { name, numpeople } = req.body;
-    const data = `Name: ${name}, Email: ${email}\n`;
+    const { name, numpeople, routenumber, time } = req.body;
+    const data = `Name: ${name}, Number of People: ${numpeople}, Route Number: ${routenumber}, Time: ${time}\n`;
 
     // Append the form data to the "database.db" file
     fs.appendFile('database.db', data, (err) => {
