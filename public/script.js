@@ -38,5 +38,30 @@ document.addEventListener('DOMContentLoaded', (event) => {
 document.getElementById('myForm').addEventListener('submit', handleFormSubmit);
 
 function handleFormSubmit(event) {
+  event.preventDefault();
   
-}
+  const formData = new FormData(event.target);
+  const data = {};
+  formData.forEach((value, key) => {
+      data[key] = value;
+  });
+  
+  fetch('/submit', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+  })
+  .then(response => response.text())
+  .then(result => {
+      console.log('Success:', result);
+      // Handle success feedback to the user
+      document.getElementById("result").innerText = result;
+  })
+  .catch(error => {
+      console.error('Error:', error);
+      // Handle error feedback to the user
+      document.getElementById("result").innerText = 'Error submitting form. Please try again.';
+  });
+};

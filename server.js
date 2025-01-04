@@ -8,6 +8,7 @@ const port = 3000;
 
 // Use body-parser middleware to parse form data
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 // Serve static files from the "public" directory
 app.use(express.static('public'));
@@ -23,7 +24,7 @@ app.post('/submit', (req, res) => {
             console.error('Error writing to file', err);
             res.status(500).send('Internal Server Error');
         } else {
-            res.send('Form submitted successfully!');
+            res.send('Form submitted successfully! Have a great day!');
         }
     });
 });
