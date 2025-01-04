@@ -1,66 +1,34 @@
+// server.js
+
 const express = require('express');
 const bodyParser = require('body-parser');
-const sqlite3 = require('sqlite3').verbose();
-const path = require('path');
-const cors = require('cors');
+const fs = require('fs');
 const app = express();
-const port = 5501;
+const port = 3000;
 
+// Use body-parser middleware to parse form data
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
 
-app.use(cors({
-  origin: 'http://your-frontend-domain.com',
-  methods: ['GET', 'POST']
-}));
-
-// Use a file-based SQLite database
-const db = new sqlite3.Database('database.db', (err) => {
-    if (err) {
-        console.error('Could not connect to database', err);
-    } else {
-        console.log('Connected to database');
-    }
-});
-
-// Create the users table if it doesn't exist
-db.serialize(() => {
-    db.run("CREATE TABLE IF NOT EXISTS users (name TEXT, num_people INTEGER, route_number TEXT, time TEXT)", (err) => {
-        if (err) {
-            console.error('Could not create table', err);
-        } else {
-            console.log('Table created or already exists');
-        }
-    });
-});
+// Serve static files from the "public" directory
+app.use(express.static('public'));
 
 // Handle form submission
-app.post('/reserve', (req, res) => {
-    const name = req.body.name;
-    const numPeople = req.body['num-people'];
-    const routeNumber = req.body['route-number'];
-    const time = req.body.time;
-    db.run("INSERT INTO users (name, num_people, route_number, time) VALUES (?, ?, ?, ?)", [name, numPeople, routeNumber, time], (err) => {
-        if (err) {
-            console.error('Error inserting data', err);
-            return res.status(500).send('Error submitting form');
-        }
-        res.status(200).send('Form submitted successfully');
-    });
-});
+app.post('/submit', (req, res) => {
+    const { name, numpeople } = req.body;
+    const data = `Name: ${name}, Email: ${email}\n`;
 
-app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}/`);
-});
-
-// Close the database connection when the server shuts down
-process.on('SIGINT', () => {
-    db.close((err) => {
+    // Append the form data to the "database.db" file
+    fs.appendFile('database.db', data, (err) => {
         if (err) {
-            console.error('Error closing database', err);
+            console.error('Error writing to file', err);
+            res.status(500).send('Internal Server Error');
         } else {
-            console.log('Database connection closed');
+            res.send('Form submitted successfully!');
         }
-        process.exit(0);
     });
+});
+
+// Start the server
+app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
 });
